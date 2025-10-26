@@ -1,7 +1,7 @@
 import { ref, onMounted } from 'vue'
 
 export function useThemeFinal() {
-  const isDark = ref(false)
+  const isDark = ref(false) // 强制从浅色模式开始
   
   const toggleTheme = () => {
     isDark.value = !isDark.value
@@ -17,24 +17,13 @@ export function useThemeFinal() {
   
   const applyTheme = () => {
     const body = document.body
-    const root = document.documentElement
     
     if (isDark.value) {
       // 深色主题
       body.classList.add('dark')
-      root.style.setProperty('--color-bg-primary', '#252a3a')
-      root.style.setProperty('--color-bg-secondary', '#1a1d28')
-      root.style.setProperty('--color-text-primary', '#e9ecef')
-      root.style.setProperty('--color-text-secondary', '#a0a7b5')
-      root.style.setProperty('--color-border', '#3a4152')
     } else {
       // 浅色主题
       body.classList.remove('dark')
-      root.style.setProperty('--color-bg-primary', '#ffffff')
-      root.style.setProperty('--color-bg-secondary', '#f5f7fb')
-      root.style.setProperty('--color-text-primary', '#212529')
-      root.style.setProperty('--color-text-secondary', '#6c757d')
-      root.style.setProperty('--color-border', '#eaeaea')
     }
   }
   
@@ -47,8 +36,8 @@ export function useThemeFinal() {
     if (savedTheme) {
       isDark.value = savedTheme === 'dark'
     } else {
-      // 检测系统主题偏好
-      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+      // 默认使用浅色模式
+      isDark.value = false
     }
     applyTheme()
   }

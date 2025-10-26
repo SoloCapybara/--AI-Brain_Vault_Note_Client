@@ -156,15 +156,36 @@ const formatText = (format: string) => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: #ffffff;
   padding: 30px;
   overflow-y: auto;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   min-width: 0;
 }
 
-.dark .note-editor {
-  background-color: #252a3a;
+body.dark .note-editor {
+  background-color: var(--color-bg-primary);
+}
+
+body.dark .editor-title {
+  color: #e9ecef;
+}
+
+body.dark .editor-meta {
+  color: #a0a7b5;
+}
+
+body.dark .toolbar-btn {
+  color: #a0a7b5;
+}
+
+body.dark .toolbar-btn:hover {
+  background-color: #1a1a1a;
+  color: var(--color-text-primary);
+}
+
+body.dark .editor-content {
+  color: #e9ecef;
 }
 
 .editor-header {
@@ -187,8 +208,8 @@ const formatText = (format: string) => {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .editor-title {
-  color: #e9ecef;
+body.dark .editor-title {
+  color: #ffffff;
 }
 
 .editor-title:focus {
@@ -201,11 +222,11 @@ const formatText = (format: string) => {
   gap: 10px;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--color-border);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .editor-toolbar {
+body.dark .editor-toolbar {
   border-bottom-color: #3a4152;
 }
 
@@ -220,19 +241,19 @@ const formatText = (format: string) => {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .toolbar-btn {
-  color: #a0a7b5;
+body.dark .toolbar-btn {
+  color: #6c757d;
 }
 
 .toolbar-btn:hover {
-  background-color: #f1f3f4;
+  background-color: #f0f4f8;
   color: var(--dark-color);
   transform: scale(1.05);
 }
 
-.dark .toolbar-btn:hover {
-  background-color: #3a4152;
-  color: #e9ecef;
+body.dark .toolbar-btn:hover {
+  background-color: #333333;
+  color: #ffffff;
 }
 
 .editor-content-wrapper {
@@ -255,8 +276,8 @@ const formatText = (format: string) => {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.dark .editor-content {
-  color: #e9ecef;
+body.dark .editor-content {
+  color: #ffffff;
 }
 
 .editor-content:focus {
@@ -268,8 +289,8 @@ const formatText = (format: string) => {
   font-style: italic;
 }
 
-.dark .editor-content::placeholder {
-  color: #a0a7b5;
+body.dark .editor-content::placeholder {
+  color: #cccccc;
 }
 
 /* 响应式设计 */

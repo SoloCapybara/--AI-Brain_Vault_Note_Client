@@ -78,17 +78,29 @@ const getRelativeDate = (date: string) => {
   width: 300px;
   min-width: 250px;
   max-width: 350px;
-  background-color: white;
-  border-right: 1px solid #eaeaea;
+  background-color: var(--color-bg-primary);
+  border-right: 1px solid var(--color-border);
   overflow-y: auto;
   padding: 20px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   flex-shrink: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
-.dark .notes-list {
-  background-color: #252a3a;
-  border-right-color: #3a4152;
+/* 防止所有子元素文字被选中 */
+.notes-list * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+body.dark .notes-list {
+  background-color: var(--color-bg-primary);
+  border-right-color: var(--color-border);
 }
 
 .notes-header {
@@ -105,12 +117,50 @@ const getRelativeDate = (date: string) => {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .notes-header h2 {
+body.dark .notes-header h2 {
+  color: var(--color-text-primary);
+}
+
+body.dark .note-item {
+  background-color: var(--color-bg-primary);
+}
+
+body.dark .note-item:hover {
+  background-color: #1a1a1a;
+}
+
+body.dark .note-item.active {
+  background-color: #1a1a1a;
+}
+
+body.dark .note-title span:first-child {
   color: #e9ecef;
 }
 
+body.dark .note-meta {
+  color: #a0a7b5;
+}
+
+body.dark .note-preview {
+  color: #a0a7b5;
+}
+
+body.dark .note-tags {
+  color: #a0a7b5;
+}
+
+body.dark .tag {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+}
+
+body.dark .tag.ai-tag {
+  background-color: var(--color-bg-primary);
+  color: #7b9fff;
+}
+
 .new-note-btn {
-  background-color: var(--primary-color);
+  background-color: #5b6bf0;
   color: white;
   border: none;
   border-radius: 8px;
@@ -146,30 +196,18 @@ const getRelativeDate = (date: string) => {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border: 1px solid transparent;
   animation: fadeIn 0.3s ease;
-  background-color: #f8f9fa;
-}
-
-.dark .note-item {
-  background-color: #2d3344;
+  background-color: #ffffff;
 }
 
 .note-item:hover {
-  background-color: #e9ecef;
+  background-color: #f0f4f8;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.dark .note-item:hover {
-  background-color: #353b4e;
-}
-
 .note-item.active {
-  background-color: #eef2ff;
-  border-color: var(--primary-color);
-}
-
-.dark .note-item.active {
-  background-color: #3a4152;
+  background-color: #f0f7ff;
+  border-color: #5b6bf0;
 }
 
 .note-title {
@@ -187,23 +225,23 @@ const getRelativeDate = (date: string) => {
   margin-right: 10px;
 }
 
-.dark .note-title span:first-child {
-  color: #e9ecef;
+body.dark .note-title span:first-child {
+  color: var(--color-text-primary);
 }
 
 .note-date {
   font-size: 12px;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   font-weight: 400;
 }
 
-.dark .note-date {
-  color: #a0a7b5;
+body.dark .note-date {
+  color: var(--color-text-secondary);
 }
 
 .note-preview {
   font-size: 14px;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   margin-bottom: 10px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -213,8 +251,8 @@ const getRelativeDate = (date: string) => {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .note-preview {
-  color: #a0a7b5;
+body.dark .note-preview {
+  color: var(--color-text-secondary);
 }
 
 .note-meta {
@@ -226,7 +264,7 @@ const getRelativeDate = (date: string) => {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .note-meta {
+body.dark .note-meta {
   color: #7a8294;
 }
 
@@ -238,16 +276,16 @@ const getRelativeDate = (date: string) => {
 
 .tag {
   background-color: #e9ecef;
-  color: #495057;
+  color: var(--color-text-primary);
   padding: 3px 8px;
   border-radius: 20px;
   font-size: 11px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .tag {
-  background-color: #3a4152;
-  color: #c8ccd4;
+body.dark .tag {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
 }
 
 .tag.ai-tag {
@@ -255,8 +293,8 @@ const getRelativeDate = (date: string) => {
   color: var(--primary-color);
 }
 
-.dark .tag.ai-tag {
-  background-color: #2d3a5c;
+body.dark .tag.ai-tag {
+  background-color: var(--color-bg-primary);
   color: #7b9fff;
 }
 
@@ -283,10 +321,10 @@ const getRelativeDate = (date: string) => {
   .notes-list {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid var(--color-border);
   }
   
-  .dark .notes-list {
+  body.dark .notes-list {
     border-bottom-color: #3a4152;
   }
 }

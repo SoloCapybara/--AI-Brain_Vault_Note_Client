@@ -1,8 +1,48 @@
 @import 'tailwindcss';
 
+/* CSS变量定义 - 浅色模式 */
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #ffffff;
+  --color-text-primary: #000000;
+  --color-text-secondary: #6c757d;
+  --color-border: #eaeaea;
+  --dark-color: #212529;
+  --primary-color: #5b6bf0;
+  --secondary-color: #3a4bd8;
+  --accent-color: #f25f5c;
+}
+
+/* 深色模式 - 使用更高优先级 */
+body.dark {
+  --color-bg-primary: #000000 !important;
+  --color-bg-secondary: #000000 !important;
+  --color-text-primary: #ffffff !important;
+  --color-text-secondary: #cccccc !important;
+  --color-border: #333333 !important;
+  --dark-color: #ffffff !important;
+}
+
 /* 基础样式重置 */
 * {
   box-sizing: border-box;
+  color: inherit;
+}
+
+/* 按钮样式重置 - 防止丑陋的边框 */
+button {
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  outline: none;
 }
 
 html, body {
@@ -41,11 +81,11 @@ html, body {
 }
 
 /* 暗色模式滚动条 */
-.dark ::-webkit-scrollbar-thumb {
+body.dark ::-webkit-scrollbar-thumb {
   background: #475569;
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
+body.dark ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
 }
 

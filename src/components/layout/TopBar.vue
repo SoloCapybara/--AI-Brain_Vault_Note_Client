@@ -13,11 +13,11 @@
     
     <div class="top-actions">
       <div class="theme-toggle">
-        <span>深色模式</span>
+        <span>{{ props.isDark ? '切换到浅色' : '切换到深色' }}</span>
         <label class="switch">
           <input 
             type="checkbox" 
-            :checked="isDark"
+            :checked="props.isDark"
             @change="$emit('toggle-theme')"
           >
           <span class="slider"></span>
@@ -32,15 +32,56 @@
       <button class="action-btn" @click="$emit('upload')" title="上传">
         <i class="fas fa-cloud-upload-alt"></i>
       </button>
+      <button class="action-btn" @click="toggleFullscreen" :title="isFullscreen ? '退出全屏' : '全屏'">
+        <i :class="isFullscreen ? 'fas fa-compress' : 'fas fa-expand'"></i>
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useThemeFinal } from '../../composables/useThemeFinal'
+import { ref, onMounted, onUnmounted } from 'vue'
 
-// 主题管理
-const { isDark } = useThemeFinal()
+// 主题状态从父组件传入
+const props = defineProps<{
+  isDark: boolean
+}>()
+
+// 全屏状态
+const isFullscreen = ref(false)
+
+// 全屏功能
+const toggleFullscreen = () => {
+  if (!document.fullscreenElement) {
+    // 进入全屏
+    document.documentElement.requestFullscreen().then(() => {
+      isFullscreen.value = true
+    }).catch((err) => {
+      console.error('无法进入全屏模式:', err)
+    })
+  } else {
+    // 退出全屏
+    document.exitFullscreen().then(() => {
+      isFullscreen.value = false
+    }).catch((err) => {
+      console.error('无法退出全屏模式:', err)
+    })
+  }
+}
+
+// 监听全屏状态变化
+const handleFullscreenChange = () => {
+  isFullscreen.value = !!document.fullscreenElement
+}
+
+// 生命周期
+onMounted(() => {
+  document.addEventListener('fullscreenchange', handleFullscreenChange)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('fullscreenchange', handleFullscreenChange)
+})
 
 // Emits
 defineEmits<{
@@ -58,14 +99,47 @@ defineEmits<{
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
-  background-color: white;
+  background-color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
-.dark .top-bar {
-  background-color: #252a3a;
+/* 防止所有子元素文字被选中 */
+.top-bar * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+body.dark .top-bar {
+  background-color: var(--color-bg-primary);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .user-info h3 {
+  color: #e9ecef;
+}
+
+body.dark .user-info p {
+  color: #a0a7b5;
+}
+
+body.dark .action-btn {
+  color: #a0a7b5;
+}
+
+body.dark .action-btn:hover {
+  background-color: #1a1a1a;
+  color: var(--color-text-primary);
+}
+
+body.dark .theme-toggle span {
+  color: #e9ecef;
 }
 
 .user-info {
@@ -78,14 +152,14 @@ defineEmits<{
   background: none;
   border: none;
   font-size: 20px;
-  color: var(--dark-color);
+  color: #212529;
   cursor: pointer;
   margin-right: 15px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .mobile-menu-btn {
-  color: #e9ecef;
+body.dark .mobile-menu-btn {
+  color: #ffffff;
 }
 
 .user-avatar {
@@ -109,12 +183,12 @@ defineEmits<{
 
 .welcome-text {
   font-weight: 500;
-  color: var(--dark-color);
+  color: #212529;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .welcome-text {
-  color: #e9ecef;
+body.dark .welcome-text {
+  color: #ffffff;
 }
 
 .notification-text {
@@ -123,8 +197,8 @@ defineEmits<{
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .notification-text {
-  color: #a0a7b5;
+body.dark .notification-text {
+  color: #cccccc;
 }
 
 .top-actions {
@@ -137,15 +211,15 @@ defineEmits<{
   background: none;
   border: none;
   font-size: 18px;
-  color: var(--dark-color);
+  color: #212529;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   padding: 8px;
   border-radius: 6px;
 }
 
-.dark .action-btn {
-  color: #e9ecef;
+body.dark .action-btn {
+  color: #ffffff;
 }
 
 .action-btn:hover {
@@ -162,12 +236,12 @@ defineEmits<{
 
 .theme-toggle span {
   font-size: 14px;
-  color: var(--dark-color);
+  color: #212529;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dark .theme-toggle span {
-  color: #e9ecef;
+body.dark .theme-toggle span {
+  color: #ffffff;
 }
 
 .switch {
@@ -202,7 +276,7 @@ defineEmits<{
   width: 16px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: #ffffff;
   transition: .4s;
   border-radius: 50%;
 }

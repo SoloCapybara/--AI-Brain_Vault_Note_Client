@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useThemeFinal } from '../composables/useThemeFinal'
 
-const { isDark, toggleTheme, setTheme } = useThemeFinal()
+// 从父组件接收主题状态和方法
+const props = defineProps<{
+  isDark: boolean
+}>()
 
 const emit = defineEmits<{
   close: []
+  'toggle-theme': []
+  'set-theme': [theme: 'light' | 'dark']
 }>()
 
 // 计算属性
-const isDarkTheme = computed(() => isDark.value)
+const isDarkTheme = computed(() => props.isDark)
 
 // 方法
 const toggleEditorTheme = () => {
-  toggleTheme()
-  console.log('主题设置完成:', isDark.value ? 'dark' : 'light')
+  emit('toggle-theme')
+  console.log('主题设置完成:', props.isDark ? 'dark' : 'light')
 }
 
 const setEditorTheme = (theme: 'light' | 'dark') => {
-  setTheme(theme)
+  emit('set-theme', theme)
   console.log('主题设置完成:', theme)
 }
 </script>
@@ -277,7 +281,7 @@ const setEditorTheme = (theme: 'light' | 'dark') => {
   border: 1px solid #e1e5e9;
 }
 
-.theme-preview.dark {
+.theme-previewbody.dark {
   background: #1a1a1a;
   border: 1px solid #333;
 }
@@ -288,7 +292,7 @@ const setEditorTheme = (theme: 'light' | 'dark') => {
   border-bottom: 1px solid #e1e5e9;
 }
 
-.theme-preview.dark .preview-header {
+.theme-previewbody.dark .preview-header {
   background: #2d2d2d;
   border-bottom-color: #444;
 }
@@ -299,7 +303,7 @@ const setEditorTheme = (theme: 'light' | 'dark') => {
   padding: 5px;
 }
 
-.theme-preview.dark .preview-content {
+.theme-previewbody.dark .preview-content {
   background: #1a1a1a;
 }
 
@@ -310,7 +314,7 @@ const setEditorTheme = (theme: 'light' | 'dark') => {
   border-radius: 2px;
 }
 
-.theme-preview.dark .preview-text {
+.theme-previewbody.dark .preview-text {
   background: #333;
 }
 
