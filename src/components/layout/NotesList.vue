@@ -9,7 +9,7 @@
     
     <div class="notes-container">
       <div 
-        v-for="note in notes" 
+        v-for="note in paginatedNotes" 
         :key="note.id"
         class="note-item" 
         :class="{ active: activeNote && activeNote.id === note.id }"
@@ -38,12 +38,24 @@
         </div>
       </div>
     </div>
+
+    <!-- 分页组件 -->
+    <Pagination
+      :current-page="currentPage"
+      :page-size="pageSize"
+      :total-items="notes.length"
+      @page-change="handlePageChange"
+      @page-size-change="handlePageSizeChange"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+import Pagination from '../ui/Pagination.vue'
+
 // Props
-defineProps<{
+const props = defineProps<{
   notes: any[]
   activeNote: any
 }>()
@@ -54,9 +66,29 @@ const emit = defineEmits<{
   'new-note': []
 }>()
 
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+// 计算属性 - 分页后的笔记
+const paginatedNotes = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return props.notes.slice(start, end)
+})
+
 // 方法
 const selectNote = (note: any) => {
   emit('select-note', note)
+}
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+}
+
+const handlePageSizeChange = (newPageSize: number) => {
+  pageSize.value = newPageSize
+  currentPage.value = 1 // 重置到第一页
 }
 
 const getRelativeDate = (date: string) => {
@@ -78,10 +110,11 @@ const getRelativeDate = (date: string) => {
   width: 300px;
   min-width: 250px;
   max-width: 350px;
+  max-height: calc(100vh - 60px);
   background-color: var(--color-bg-primary);
   border-right: 1px solid var(--color-border);
-  overflow-y: auto;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   flex-shrink: 0;
   user-select: none;
@@ -107,7 +140,9 @@ body.dark .notes-list {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 3px;
+  padding: 5px 20px 0 20px;
+  flex-shrink: 0;
 }
 
 .notes-header h2 {
@@ -187,6 +222,10 @@ body.dark .tag.ai-tag {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 20px 5px 20px;
+  min-height: 0; /* 确保可以收缩 */
 }
 
 .note-item {
@@ -201,8 +240,8 @@ body.dark .tag.ai-tag {
 
 .note-item:hover {
   background-color: #f0f4f8;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .note-item.active {

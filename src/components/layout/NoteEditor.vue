@@ -259,6 +259,8 @@ body.dark .toolbar-btn:hover {
 .editor-content-wrapper {
   flex: 1;
   position: relative;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
 }
 
 .editor-content {
@@ -274,6 +276,7 @@ body.dark .toolbar-btn:hover {
   color: var(--dark-color);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-y: auto;
 }
 
 body.dark .editor-content {

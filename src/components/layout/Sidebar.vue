@@ -612,13 +612,15 @@ const updateSidebarBackground = () => {
         }
         
         if (searchInput) {
-          searchInput.style.setProperty('color', textColor, 'important')
-          searchInput.style.backgroundColor = textColor === '#ffffff' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)'
+          // 深色模式下，搜索框使用白色文字和半透明背景
+          searchInput.style.setProperty('color', '#ffffff', 'important')
+          searchInput.style.setProperty('background-color', 'rgba(255, 255, 255, 0.15)', 'important')
         }
         
         searchButtons.forEach((el: any) => {
-          el.style.setProperty('color', textColor, 'important')
-          el.style.backgroundColor = textColor === '#ffffff' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'
+          // 深色模式下，搜索按钮使用白色文字和半透明背景
+          el.style.setProperty('color', '#ffffff', 'important')
+          el.style.setProperty('background-color', 'rgba(255, 255, 255, 0.2)', 'important')
         })
         
         if (toggleButton) {
@@ -655,13 +657,15 @@ const updateSidebarBackground = () => {
         }
         
         if (searchInput) {
-          searchInput.style.color = '#e9ecef'
-          searchInput.style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
+          // 默认深色模式下，搜索框使用白色文字和半透明背景
+          searchInput.style.setProperty('color', '#ffffff', 'important')
+          searchInput.style.setProperty('background-color', 'rgba(255, 255, 255, 0.15)', 'important')
         }
         
         searchButtons.forEach((el: any) => {
-          el.style.color = '#e9ecef'
-          el.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'
+          // 默认深色模式下，搜索按钮使用白色文字和半透明背景
+          el.style.setProperty('color', '#ffffff', 'important')
+          el.style.setProperty('background-color', 'rgba(255, 255, 255, 0.2)', 'important')
         })
         
         if (toggleButton) {
@@ -709,13 +713,15 @@ const updateSidebarBackground = () => {
         }
         
         if (searchInput) {
-          searchInput.style.setProperty('color', textColor, 'important')
-          searchInput.style.backgroundColor = textColor === '#ffffff' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)'
+          // 浅色模式下，搜索框始终使用浅色背景和深色文字
+          searchInput.style.setProperty('color', '#000000', 'important')
+          searchInput.style.setProperty('background-color', '#f5f5f5', 'important')
         }
         
         searchButtons.forEach((el: any) => {
-          el.style.setProperty('color', textColor, 'important')
-          el.style.backgroundColor = textColor === '#ffffff' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)'
+          // 浅色模式下，搜索按钮使用深色文字和浅色背景
+          el.style.setProperty('color', '#333333', 'important')
+          el.style.setProperty('background-color', '#e0e0e0', 'important')
         })
         
         if (toggleButton) {
@@ -749,13 +755,15 @@ const updateSidebarBackground = () => {
         }
         
         if (searchInput) {
-          searchInput.style.color = '#333333'
-          searchInput.style.backgroundColor = 'rgba(0, 0, 0, 0.1)'
+          // 默认浅色模式下，搜索框使用深色文字和浅色背景
+          searchInput.style.setProperty('color', '#000000', 'important')
+          searchInput.style.setProperty('background-color', '#f5f5f5', 'important')
         }
         
         searchButtons.forEach((el: any) => {
-          el.style.color = '#333333'
-          el.style.backgroundColor = 'rgba(0, 0, 0, 0.1)'
+          // 默认浅色模式下，搜索按钮使用深色文字和浅色背景
+          el.style.setProperty('color', '#333333', 'important')
+          el.style.setProperty('background-color', '#e0e0e0', 'important')
         })
         
         if (toggleButton) {
@@ -966,15 +974,88 @@ body:not(.dark) .sidebar:not([data-theme-color]) .nav-item.active {
   border-left-color: #1976d2 !important;
 }
 
-/* 浅色模式下的搜索框 */
-body:not(.dark) .search-box input {
+/* 浅色模式下的搜索框 - 最强力覆盖所有样式 */
+body:not(.dark) .search-box input,
+body:not(.dark) .sidebar .search-box input,
+body:not(.dark) .search-box input[style*="color"],
+body:not(.dark) .search-box input[style*="background-color"],
+body:not(.dark) .search-box input[style*="color"]:focus,
+body:not(.dark) .search-box input:focus,
+body:not(.dark) .search-box input:active,
+body:not(.dark) .search-box input:hover {
   background-color: #f5f5f5 !important;
-  color: #333333 !important;
+  color: #000000 !important;
   border: 1px solid #e0e0e0 !important;
 }
 
-body:not(.dark) .search-box input::placeholder {
-  color: #999999 !important;
+body:not(.dark) .search-box input::placeholder,
+body:not(.dark) .sidebar .search-box input::placeholder,
+body:not(.dark) .search-box input[style*="color"]::placeholder {
+  color: #666666 !important;
+}
+
+/* 深色模式下的搜索框 - 白色文字 */
+body.dark .search-box input,
+body.dark .search-box input[style*="color"],
+body.dark .search-box input[style*="background-color"],
+body.dark .search-box input:focus,
+body.dark .search-box input:active,
+body.dark .search-box input:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 最强力规则 - 覆盖所有可能的样式 */
+.search-box input {
+  color: #000000 !important;
+}
+
+body:not(.dark) .search-box input,
+body:not(.dark) .search-box input[style*="color"],
+body:not(.dark) .search-box input[style*="background-color"],
+body:not(.dark) .search-box input:focus,
+body:not(.dark) .search-box input:active,
+body:not(.dark) .search-box input:hover {
+  color: #000000 !important;
+  background-color: #f5f5f5 !important;
+}
+
+body.dark .search-box input,
+body.dark .search-box input[style*="color"],
+body.dark .search-box input[style*="background-color"],
+body.dark .search-box input:focus,
+body.dark .search-box input:active,
+body.dark .search-box input:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 浅色模式下的搜索框 - 黑色文字（无论什么主题色） */
+body:not(.dark) .search-box input,
+body:not(.dark) .search-box input[style*="color"],
+body:not(.dark) .search-box input[style*="background-color"],
+body:not(.dark) .search-box input:focus,
+body:not(.dark) .search-box input:active,
+body:not(.dark) .search-box input:hover,
+body:not(.dark) .sidebar .search-box input,
+body:not(.dark) .sidebar .search-box input[style*="color"],
+body:not(.dark) .sidebar .search-box input[style*="background-color"] {
+  color: #000000 !important;
+  background-color: #f5f5f5 !important;
+}
+
+/* 深色模式下的搜索框 - 白色文字 */
+body.dark .search-box input,
+body.dark .search-box input[style*="color"],
+body.dark .search-box input[style*="background-color"],
+body.dark .search-box input:focus,
+body.dark .search-box input:active,
+body.dark .search-box input:hover,
+body.dark .sidebar .search-box input,
+body.dark .sidebar .search-box input[style*="color"],
+body.dark .sidebar .search-box input[style*="background-color"] {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 /* 浅色模式下的搜索按钮 */
